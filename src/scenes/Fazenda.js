@@ -1,6 +1,7 @@
 import { Scene } from "phaser";
 import { CONFIG } from "../config";
 import Player from "./entities/Player";
+import Vaca from "./entities/Vaca";
 
 export default class Fazenda extends Scene {
     /** @type {Phaser.Tilemaps.Tilemap} */
@@ -29,6 +30,16 @@ export default class Fazenda extends Scene {
             frameWidth: 48,
             frameHeight: 48
         });
+
+        this.load.spritesheet('vaca', 'mapas/tiles/vacas_anim.png', {
+            frameWidth: CONFIG.TILE_SIZE * 2,
+            frameHeight: CONFIG.TILE_SIZE *2
+        });
+
+        this.load.spritesheet('vacaAmarela', 'mapas/tiles/vacas_anim.png', {
+            frameWidth: CONFIG.TILE_SIZE * 2,
+            frameHeight: CONFIG.TILE_SIZE *2
+        });
     }
 
     create() {
@@ -38,6 +49,7 @@ export default class Fazenda extends Scene {
         this.createPlayer();
         this.createCamera();
         this.createColliders();
+        this.createVaca();
         
     }
 
@@ -53,6 +65,11 @@ export default class Fazenda extends Scene {
         this.player.setDepth (2);
         
         
+    }
+
+    createVaca() {
+        this.vaca = new Vaca(this, 16*25, 16*16)
+        this.vaca.setDepth(2);
     }
 
     createMap(){
@@ -109,6 +126,7 @@ export default class Fazenda extends Scene {
 
             if(name.endsWith('Collision') ) {
                 this.physics.add.collider(this.player, this.layers[name]);
+                
             }
         }
         
