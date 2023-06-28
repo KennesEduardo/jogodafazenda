@@ -10,6 +10,8 @@ export default class Fazenda extends Scene {
     /**@type {Player} */
     player;
     touch;
+    /**@type {Vaca} */
+    vaca;
 
     isTouching = false;
 
@@ -36,10 +38,6 @@ export default class Fazenda extends Scene {
             frameHeight: CONFIG.TILE_SIZE *2
         });
 
-        this.load.spritesheet('vacaAmarela', 'mapas/tiles/vacas_anim.png', {
-            frameWidth: CONFIG.TILE_SIZE * 2,
-            frameHeight: CONFIG.TILE_SIZE *2
-        });
     }
 
     create() {
@@ -48,8 +46,9 @@ export default class Fazenda extends Scene {
         // this.createLayersManual();
         this.createPlayer();
         this.createCamera();
-        this.createColliders();
         this.createVaca();
+        this.createColliders();
+
         
     }
 
@@ -58,9 +57,7 @@ export default class Fazenda extends Scene {
     }
 
     createPlayer() {
-
         // this.touch = new Touch(this, 50, 50);
-
         this.player = new Player(this, 16*9, 16*9, this.touch) //(scene, x,y)
         this.player.setDepth (2);
         
@@ -103,7 +100,6 @@ export default class Fazenda extends Scene {
 
             if(name.endsWith('Collision') ) {
                 this.layers[name].setCollisionByProperty({collide: true});
-                console.log(name)
 
                 if ( CONFIG.DEBUG_COLLISION ) {
                     const debugGraphics = this.add.graphics().setAlpha(0.75).setDepth(i);
@@ -126,7 +122,7 @@ export default class Fazenda extends Scene {
 
             if(name.endsWith('Collision') ) {
                 this.physics.add.collider(this.player, this.layers[name]);
-                
+                this.physics.add.collider(this.vaca, this.layers[name]);
             }
         }
         
