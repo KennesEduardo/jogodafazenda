@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import { CONFIG } from "../config";
 import Player from "./entities/Player";
 import Vaca from "./entities/Vaca";
+import Touch from "./entities/Touch";
 
 export default class Fazenda extends Scene {
     /** @type {Phaser.Tilemaps.Tilemap} */
@@ -12,6 +13,11 @@ export default class Fazenda extends Scene {
     touch;
     /**@type {Vaca} */
     vaca;
+
+    groupObjects;
+
+    sementeCenoura = false;
+    alimentoPlantado = false;
 
     isTouching = false;
 
@@ -47,7 +53,10 @@ export default class Fazenda extends Scene {
         this.createPlayer();
         this.createCamera();
         this.createVaca();
+        this.createVacaDois();
+        this.createObjects();
         this.createColliders();
+        
 
         
     }
@@ -57,16 +66,19 @@ export default class Fazenda extends Scene {
     }
 
     createPlayer() {
-        // this.touch = new Touch(this, 50, 50);
+        this.touch = new Touch(this, 50, 50);
         this.player = new Player(this, 16*9, 16*9, this.touch) //(scene, x,y)
         this.player.setDepth (2);
-        
-        
+                
     }
 
     createVaca() {
         this.vaca = new Vaca(this, 16*25, 16*16)
         this.vaca.setDepth(2);
+    }
+    createVacaDois() {
+        this.vacaDois = new Vaca(this, 16*25, 16*21)
+        this.vacaDois.setDepth(2);
     }
 
     createMap(){
@@ -79,6 +91,31 @@ export default class Fazenda extends Scene {
         //fazendo a correspondencia ente as imagens usada no Tiled e as carrregadas peli phaser
         // addTilesetImage(nome da imagem no Tiled, nome da imagem carregado no Phaser)
         this.map.addTilesetImage('geral', 'tiles-geral');
+    }
+
+    createObjects(){
+
+        this.groupObjects = this.physics.add.group();
+
+        const objects = this.map.createFromObjects('semente',{
+            nome: 'regador', nome: 'cenoura', nome: 'terreno'
+        
+        });
+        
+        this.physics.world.enable(objects);
+
+        for ( let i = 0; i <objects.length; i++){
+            const obj = objects[i]
+
+            const prop = this.map.objects[0].objects[i]
+            
+            obj.setDepth(this.layers.length+1);
+            obj.setVisible(false);
+            obj.prop = this.map.objects[0].objects[i].properties;
+            this.groupObjects.add(obj);
+
+        }
+
     }
 
 
@@ -123,26 +160,30 @@ export default class Fazenda extends Scene {
             if(name.endsWith('Collision') ) {
                 this.physics.add.collider(this.player, this.layers[name]);
                 this.physics.add.collider(this.vaca, this.layers[name]);
+                this.physics.add.collider(this.vacaDois, this.layers[name]);
             }
         }
+        //ativando bordinhas
+        this.physics.add.overlap(this.touch, this.grupObject, this.handleTouch, undefined, this);
+
         
     }
 
 
-    createLayersManual() {
+    // createLayersManual() {
         
-        //pegando os tilesets (usar os nome dados no tile)
-        const tilesGeral = this.map.getTileset('geral');
+    //     //pegando os tilesets (usar os nome dados no tile)
+    //     const tilesGeral = this.map.getTileset('geral');
 
-        //inserido os layers manualmente
-        //createLayers(nome da camada, vetor de tiles usado pra monta e posição x da cama, y da camada)
-        this.map.createLayer('camadaUm', [tilesGeral], 0, 0); //0,0 é a posição x e y
-        this.map.createLayer('camadaDoisCollision', [tilesGeral], 0, 0);
-        this.map.createLayer('camadaTresCollision', [tilesGeral], 0, 0);
-        this.map.createLayer('camadaQuatro', [tilesGeral], 0, 0);
+    //     //inserido os layers manualmente
+    //     //createLayers(nome da camada, vetor de tiles usado pra monta e posição x da cama, y da camada)
+    //     this.map.createLayer('camadaUm', [tilesGeral], 0, 0); //0,0 é a posição x e y
+    //     this.map.createLayer('camadaDoisCollision', [tilesGeral], 0, 0);
+    //     this.map.createLayer('camadaTresCollision', [tilesGeral], 0, 0);
+    //     this.map.createLayer('camadaQuatro', [tilesGeral], 0, 0);
         
         
-    }
+    // }
 
     createCamera() {
         const mapWidth = this.map.width * CONFIG.TILE_SIZE;
@@ -150,6 +191,27 @@ export default class Fazenda extends Scene {
 
         this.cameras.main.setBounds(0,0, mapWidth, mapHeight);
         this.cameras.main.startFollow(this.player);
+    }
+
+    handleTouch(touch, objects){ 
+        
+        if (this.isTouching && this.player.isAction) {
+            return;
+        }
+        if (this.isTouching && !this.player.isAction) {
+            this.isTouching = false;
+            return;
+        }
+        //colocando semente da cenoura na mão
+        if(this.player.isAction){
+            this.isTouching = true;
+            console.log("entrouuu")
+            if(objects.name === 'sementeCenoura'){
+                this.sementeCenoura = true;
+                console.log("peguei a semente de cenoura")
+            }
+        }
+
     }
 
 }

@@ -4,9 +4,10 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
     /**@type {Phaser.Type.Input.KeyBoard.CursorKeys} */
 
     cursors;
-    touch;
+    // touch;
 
     isAction = false; //diz se a tecla de ação está pressionada
+
     constructor(scene, x , y, touch) {
         super(scene, x, y, 'player');
 
@@ -19,7 +20,7 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
     }
 
     init(){
-        this.setFrame(3);
+        this.setFrame(7);
         this.speed = 120;
         this.frameRate = 8;
         this.direction = 'down';
@@ -27,11 +28,10 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
 
         //arrumando o tamanho do player
         this.body.setSize(10,10);
-        this.body.setOffset(19,22);
-        
+        this.body.setOffset(19,22); 
         this.initAnimations();
         //acosioando um evento da cena ao player
-        this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this)
+        this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
         
         this.play('idle-down');
     }
@@ -48,7 +48,6 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
         }else{
             this.setVelocityX(0);
         }
-
         if (up.isDown) {
             this.direction = 'up'
             this.setVelocityY(-this.speed);
@@ -61,6 +60,7 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
 
         if (space.isDown) {
             this.isAction = true;
+            console.log("apertei space")
         }else{
             this.isAction = false;
         }
@@ -77,23 +77,29 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
         let distance = 16;
         switch(this.direction) {
             case 'down':
-                tx = 0;
-                ty = distance + CONFIG.TILE_SIZE / 2.8;
+                tx = -8;
+                ty = distance - CONFIG.TILE_SIZE / 5;
                 break;
             case 'up':
-                tx = 0;
-                ty = -distance + CONFIG.TILE_SIZE;    
+                tx = -8;
+                ty = - distance + CONFIG.TILE_SIZE/3;    
                 break;
             case 'right':
-                tx = distance / 2.5;
-                ty = CONFIG.TILE_SIZE / 2;    
+                tx = distance /7;
+                ty = CONFIG.TILE_SIZE/5;
                 break;
+
             case 'left':
-                tx = -distance;
-                ty = CONFIG.TILE_SIZE / 2;
-                break;    
+                tx = -distance-2;
+                ty = CONFIG.TILE_SIZE/5;
+                break;
+
+            case 'space':
+                tx = 0;
+                ty = 0;
+                break;  
         }
-        // this.touch.setPosition(this.x + tx + CONFIG.TILE_SIZE/2, this.y + ty)
+        this.touch.setPosition(this.x + tx + CONFIG.TILE_SIZE/2, this.y + ty);  
     }
 
     initAnimations() {
@@ -129,10 +135,17 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
             frameRate: this.frameRate,
             repeat: -1
         });
+            //espaço precionado
+        this.anims.create({
+            key: 'idle-space',
+            frames: this.anims.generateFrameNumbers('player', {
+            start: 104, end: 111}),
+            frameRate: this.frameRate,
+            repeat: 0
+        });
+        //andando player
 
-        //Walking player
-
-         this.anims.create({
+        this.anims.create({
             key: 'walk-up',
             frames: this.anims.generateFrameNumbers('player', {
             start: 40, end: 47}),
@@ -163,7 +176,6 @@ export default class player extends Phaser.Physics.Arcade.Sprite {
             frameRate: this.frameRate,
             repeat: -1
         });
-
 
     }
 }

@@ -44,25 +44,25 @@ export default class vaca extends Phaser.Physics.Arcade.Sprite {
             repeat: -1
         });
 
-        this.anims.create({
-            key: 'inclinando',
-            frames: this.anims.generateFrameNames('vaca', {
-              start: 41, end: 51
-            }),
-            frameRate: this.frameRate,
-            repeat: -1,
-
-        })
-
         // this.anims.create({
-        //     key: 'alimentando',
+        //     key: 'inclinando',
         //     frames: this.anims.generateFrameNames('vaca', {
-        //       start: 48, end: 51 
+        //       start: 41, end: 51
         //     }),
         //     frameRate: this.frameRate,
-        //     repeat: -1
+        //     repeat: -1,
 
         // })
+
+        this.anims.create({
+            key: 'alimentando',
+            frames: this.anims.generateFrameNames('vaca', {
+              start: 48, end: 51 
+            }),
+            frameRate: this.frameRate,
+            repeat: -1
+
+        })
       
         this.anims.create({
             key: 'andando-direita',
@@ -112,7 +112,7 @@ export default class vaca extends Phaser.Physics.Arcade.Sprite {
           case 4:
             this.flipX = false;
             this.setVelocityX(0);
-            this.play('inclinando');
+            this.play('alimentando');
             break;
 
           
