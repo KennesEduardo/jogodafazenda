@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="23">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="30" height="25" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="40">
  <editorsettings>
   <export target="../fazenda.json" format="json"/>
  </editorsettings>
@@ -4873,10 +4873,10 @@
 0,0,0,338,411,411,411,411,411,411,411,411,411,411,411,411,411,411,411,411,411,411,340,0,0,0,0,0,0,0,
 0,338,411,388,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,386,411,411,411,411,411,340,0,
 0,361,0,0,226,227,227,227,227,227,227,227,227,227,228,0,0,9,9,9,9,9,613,0,0,0,0,0,361,0,
-0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,84,85,85,85,85,85,85,85,86,361,0,
-0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,108,12,12,12,12,12,12,12,110,361,0,
-0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,108,12,12,12,12,12,12,12,110,361,0,
-0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,108,12,12,12,12,12,12,12,110,361,0,
+0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,54,9,0,84,85,85,85,85,85,85,85,86,361,0,
+0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,108,12,11,12,11,12,11,12,110,361,0,
+0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,108,12,11,12,11,12,11,12,110,361,0,
+0,361,0,0,250,251,251,251,251,251,251,251,251,251,252,0,0,9,0,108,12,11,12,11,12,11,12,110,361,0,
 0,361,0,0,274,275,275,275,275,299,275,275,275,275,276,9,9,9,0,132,133,133,133,133,133,133,133,134,361,0,
 0,361,0,0,9,196,197,0,0,0,511,511,511,511,396,397,397,398,95,0,0,0,0,0,0,0,0,0,361,0,
 0,361,0,0,0,0,0,0,0,461,0,0,0,0,0,0,378,0,119,120,0,0,0,0,0,0,0,0,361,0,
@@ -4926,14 +4926,22 @@
 </data>
  </layer>
  <objectgroup id="5" name="semente">
-  <object id="11" name="terreno" x="320" y="80.1818" width="15.6364" height="15.2727"/>
-  <object id="15" name="cenoura" x="272.545" y="64" width="14.3636" height="15.2727"/>
+  <object id="15" name="cenoura" x="274.795" y="63.0909" width="10.9091" height="12.7273"/>
   <object id="16" name="regador" x="288" y="48" width="15.4545" height="15.2727"/>
-  <object id="17" name="terreno" x="351.818" y="80.1818" width="15.6364" height="15.2727"/>
-  <object id="18" name="terreno" x="384.182" y="80" width="15.6364" height="15.2727"/>
-  <object id="19" name="terreno" x="416.182" y="79.8182" width="15.6364" height="15.2727"/>
-  <object id="20" name="terreno" x="320.364" y="96.1818" width="15.6364" height="15.2727"/>
-  <object id="21" name="terreno" x="320" y="112.364" width="15.6364" height="15.2727"/>
-  <object id="22" name="terreno" x="352.182" y="96.1818" width="15.6364" height="15.2727"/>
+  <object id="20" name="terrenoCenoura" x="320.364" y="96.7273" width="14.9091" height="14.3636"/>
+  <object id="23" name="terrenoCenoura" x="320.364" y="80.8182" width="14.9091" height="14.3636"/>
+  <object id="24" name="terrenoCenoura" x="320.364" y="112.636" width="14.9091" height="14.3636"/>
+  <object id="28" name="terrenoNabo" x="352.455" y="80.9091" width="14.9091" height="14.3636"/>
+  <object id="29" name="terrenoNabo" x="352.273" y="96.7273" width="14.9091" height="14.3636"/>
+  <object id="30" name="terrenoNabo" x="352.545" y="112.727" width="14.9091" height="14.3636"/>
+  <object id="31" name="terrenoberingela" x="384.545" y="80.7273" width="14.9091" height="14.3636"/>
+  <object id="32" name="terrenoberingela" x="384.727" y="97.0909" width="14.9091" height="14.3636"/>
+  <object id="33" name="terrenoberingela" x="384.545" y="113.091" width="14.9091" height="14.3636"/>
+  <object id="34" name="terreno" x="416.545" y="112.909" width="14.9091" height="14.3636"/>
+  <object id="35" name="terreno" x="416.455" y="96.7273" width="14.9091" height="14.3636"/>
+  <object id="36" name="terreno" x="416.364" y="80.9091" width="14.9091" height="14.3636"/>
+  <object id="37" name="nabo" x="274.545" y="81.6363" width="10.9091" height="12.7273"/>
+  <object id="38" name="beringela" x="274.795" y="98.6363" width="10.9091" height="12.7273"/>
+  <object id="39" name="porta" x="146.045" y="131.636" width="10.9091" height="12.7273"/>
  </objectgroup>
 </map>
