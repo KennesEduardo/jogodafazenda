@@ -3,7 +3,7 @@ import { CONFIG } from "../config";
 import Player from "./entities/Player";
 import Vaca from "./entities/Vaca";
 import Touch from "./entities/Touch";
-import Casa from "./Casa"
+import Casa from "./Casa";
 
 export default class Fazenda extends Scene {
     /** @type {Phaser.Tilemaps.Tilemap} */
@@ -22,7 +22,7 @@ export default class Fazenda extends Scene {
     cenouraNivel = 1;
 
     sementeNabo = false;
-    naboNivel = 2;
+    naboNivel = 1;
 
     sementeBeringela = false;
     beringelaNivel = 1;
@@ -64,6 +64,7 @@ export default class Fazenda extends Scene {
     }
 
     create() {
+        this.cursors = this.input.keyboard.createCursorKeys();
         this.createMap();
         this.createLayers();
         this.createPlayer();
@@ -72,7 +73,6 @@ export default class Fazenda extends Scene {
         this.createVacaDois();
         this.createObjects();
         this.createColliders();
-                
     }
 
     update() {
@@ -193,26 +193,31 @@ export default class Fazenda extends Scene {
     }
 
     handleTouch(touch, objects){ 
-        
-        if (this.isTouching && this.player.isAction) {
-            return;
-        }
-        if (this.isTouching && !this.player.isAction) {
-            this.isTouching = false;
-            return;
-        }
+        const {space} = this.cursors;
 
-            //Mudando a cena para CASA
-        if (this.player.isAction) {
-            if (objects.name === 'porta') {
-                console.log("mudarei de cena");
+        if (space.isDown && objects.name === 'porta' && this.isTouching == false) {
             this.scene.switch('Casa')
-            }
         }
+        // if (this.isTouching && this.player.isAction) {
+        //     return;
+        // }
+        // if (this.isTouching && !this.player.isAction) {
+        //     this.isTouching = false;
+        //     return;
+        // }
+
+        //     //Mudando a cena para CASA
+        // if (this.player.isAction) {
+        //     if (objects.name === 'porta') {
+        //         console.log("mudarei de cena");
+        //         this.scene.switch('Casa')
+        //     }
+        // }
 
         //colocando semente da cenoura na mão
         if(this.player.isAction){
             this.isTouching = true;
+
             //pegando sementes
             if(objects.name === 'cenoura' && this.sementeCenoura == false){
                 this.sementeCenoura = true;
@@ -222,10 +227,11 @@ export default class Fazenda extends Scene {
                 this.sementeNabo = true;
                 console.log("peguei a semente de nabo")
             }
-            if(objects.name === 'beringela' && this.sementeNabo == false){
+            if(objects.name === 'beringela' && this.sementeBeringela == false){
                 this.sementeBeringela = true;
                 console.log("peguei a semente de beringela")
             }
+
             //plantado a sementes
             if(objects.name === 'terrenoCenoura' && this.sementeCenoura == true ){
                 const pegaPosicao = this.physics.add.sprite(objects.x, objects.y,'spritGeral')
@@ -244,13 +250,16 @@ export default class Fazenda extends Scene {
             if(objects.name === 'terrenoberingela' && this.sementeBeringela == true ){
                 const pegaPosicao = this.physics.add.sprite(objects.x, objects.y,'spritGeral')
                 .setDepth(0)
-                pegaPosicao.setFrame(657)
+                pegaPosicao.setFrame(656)
                 this.sementeBeringela = false;
                 this.beringelaNivel = 2;
             }
+
             //regando a determinada planta
             if(objects.name === 'regador' && this.regador == false) {
+
                 this.regador = true;
+                console.log("peguei regador ")
             }
             // fases da cenoura
             if(objects.name === 'terrenoCenoura' && this.regador == true && this.cenouraNivel == 2) {
@@ -259,7 +268,7 @@ export default class Fazenda extends Scene {
                     .setDepth(0)
                     pegaPosicao.setFrame(586)
 
-                }, 300);
+                }, 3000);
                 this.cenouraNivel = 3
                 this.regador = false;                      
                 
@@ -270,7 +279,7 @@ export default class Fazenda extends Scene {
                     const pegaPosicao = this.physics.add.sprite(objects.x, objects.y,'spritGeral')
                     .setDepth(0)
                     pegaPosicao.setFrame(587)
-                }, 300);
+                }, 3000);
                 this.regador = false;
             }
 
@@ -282,7 +291,7 @@ export default class Fazenda extends Scene {
                     .setDepth(0)
                     pegaPosicao.setFrame(610)
 
-                }, 300);
+                }, 3000);
                 this.naboNivel = 3
                 this.regador = false;                      
                 
@@ -293,20 +302,21 @@ export default class Fazenda extends Scene {
                     const pegaPosicao = this.physics.add.sprite(objects.x, objects.y,'spritGeral')
                     .setDepth(0)
                     pegaPosicao.setFrame(611)
-                }, 300);
+                }, 3000);
                 this.regador = false;
                 this.naboNivel = 1;
             }
 
             //fase da beringela
 
-            if(objects.name === 'terrenoBeringela' && this.regador == true && this.beringelaNivel == 2) {
+            if(objects.name === 'terrenoberingela' && this.regador == true && this.beringelaNivel == 2) {
                 setTimeout(() => {
                     const pegaPosicao = this.physics.add.sprite(objects.x, objects.y,'spritGeral')
                     .setDepth(0)
-                    pegaPosicao.setFrame(658)
+                    pegaPosicao.setFrame(657)
+                    console.log(pegaPosicao)
 
-                }, 300);
+                }, 3000);
                 this.beringelaNivel = 3
                 this.regador = false;                      
                 
@@ -317,7 +327,7 @@ export default class Fazenda extends Scene {
                     const pegaPosicao = this.physics.add.sprite(objects.x, objects.y,'spritGeral')
                     .setDepth(0)
                     pegaPosicao.setFrame(659)
-                }, 300);
+                }, 3000);
                 this.regador = false;
                 this.beringelaNivel = 1
             }

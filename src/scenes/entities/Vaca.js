@@ -87,7 +87,6 @@ export default class vaca extends Phaser.Physics.Arcade.Sprite {
 
     autoDirect() {
         var autoRun = Math.floor(Math.random() * 5);
-        console.log(autoRun)
         switch (autoRun) {
           case 1:
             this.flipX = false;

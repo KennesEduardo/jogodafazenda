@@ -15,7 +15,7 @@ export default class Casa extends Scene {
     isTouching = false;
     layers = {};
 
-    grupObject;
+    groupObjects;
     constructor() {
         super('Casa')
     }
@@ -36,12 +36,13 @@ export default class Casa extends Scene {
   }
 
   create() {
+    this.cursors = this.input.keyboard.createCursorKeys();
     this.createMap();
     this.createLayers();
     this.createPlayer();
+    this.createCamera();
     this.createObjects();
     this.createColliders();
-    this.createCamera();
     
   }
 
@@ -58,7 +59,7 @@ export default class Casa extends Scene {
     createPlayer() {
         this.touch = new Touch(this, 22 * 11, 18 * 13);
         this.player = new Player(this, 16 * 14.5, 16 * 23.5, this.touch);
-        this.player.setDepth(1);
+        this.player.setDepth(4);
     }
 
     createLayers() {
@@ -108,12 +109,13 @@ export default class Casa extends Scene {
     }
 
     createObjects() {
-        this.grupObject = this.physics.add.group();
+        this.groupObjects = this.physics.add.group();
         const objects = this.map.createFromObjects('Objects', {
-          name: 'porta'
+          name: 'portadeDentro'
         });
     
         this.physics.world.enable(objects);
+        console.log(objects)
     
         for (let i = 0; i < objects.length; i++) {
           const obj = objects[i]
@@ -122,28 +124,34 @@ export default class Casa extends Scene {
           obj.setDepth(this.layers.length + 1);
           obj.setVisible(false);
           obj.prop = this.map.objects[0].objects[i].properties;
-          this.grupObject.add(obj);
+          this.groupObjects.add(obj);
         }
     }
 
     //fazendo o player trocar pra cena da fazenda
-    handleTouch(touch, objects) {
-        if (this.isTouching && this.player.isAction) {
-          return;
-        }
-    
-        if (this.isTouching && !this.player.isAction) {
-          this.isTouching = false;
-          return;
-        }
-    
-        if (this.player.isAction) {
-          if (objects.name === 'porta') {
+    handleTouch(touch, objects){ 
+        
+        const {space} = this.cursors;
+
+        if (space.isDown && objects.name === 'portadeDentro' && this.isTouching == false) {
             this.scene.switch('Fazenda')
-          }
         }
-    }
 
+        // if (this.isTouching && this.player.isAction) {
+        //     return;
+            
+        // }
+        // if (this.isTouching && !this.player.isAction) {
+        //     this.isTouching = false;
+        //     return;
+        // }
 
-
+        //     //Mudando a cena para CASA
+        // if (this.player.isAction) {
+        //     if (objects.name === 'portadeDentro') {
+        //         console.log("mudarei de cena 2");
+        //         this.scene.switch('Fazenda')
+        //     }
+        // }
+    }    
 }
