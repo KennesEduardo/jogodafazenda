@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import { CONFIG } from "../config";
 import Player from "./entities/Player";
 import Vaca from "./entities/Vaca";
+import vacaDois from "./entities/VacaDois";
 import Touch from "./entities/Touch";
 import Casa from "./Casa";
 
@@ -14,6 +15,10 @@ export default class Fazenda extends Scene {
     touch;
     /**@type {Vaca} */
     vaca;
+
+     /**@type {VacaDois} */
+    vacadois;
+    
 
     groupObjects;
 
@@ -54,7 +59,11 @@ export default class Fazenda extends Scene {
 
         this.load.spritesheet('vaca', 'mapas/tiles/vacas_anim.png', {
             frameWidth: CONFIG.TILE_SIZE * 2,
-            frameHeight: CONFIG.TILE_SIZE *2
+            frameHeight: CONFIG.TILE_SIZE * 2
+        });
+        this.load.spritesheet('vacaDois', 'mapas/tiles/vacas_anim.png', {
+            frameWidth: CONFIG.TILE_SIZE * 2,
+            frameHeight: CONFIG.TILE_SIZE * 2
         });
         this.load.spritesheet('spritGeral', 'mapas/tiles/geral.png', {
             frameWidth: CONFIG.TILE_SIZE,
@@ -91,7 +100,7 @@ export default class Fazenda extends Scene {
         this.vaca.setDepth(2);
     }
     createVacaDois() {
-        this.vacaDois = new Vaca(this, 16*25, 16*21)
+        this.vacaDois = new vacaDois(this, 16*25, 16*21)
         this.vacaDois.setDepth(2);
     }
 
