@@ -3,6 +3,7 @@ import { CONFIG } from "../config";
 import Player from "./entities/Player";
 import Vaca from "./entities/Vaca";
 import Touch from "./entities/Touch";
+import Casa from "./Casa"
 
 export default class Fazenda extends Scene {
     /** @type {Phaser.Tilemaps.Tilemap} */
@@ -65,16 +66,13 @@ export default class Fazenda extends Scene {
     create() {
         this.createMap();
         this.createLayers();
-        // this.createLayersManual();
         this.createPlayer();
         this.createCamera();
         this.createVaca();
         this.createVacaDois();
         this.createObjects();
         this.createColliders();
-        
-
-        
+                
     }
 
     update() {
@@ -203,6 +201,15 @@ export default class Fazenda extends Scene {
             this.isTouching = false;
             return;
         }
+
+            //Mudando a cena para CASA
+        if (this.player.isAction) {
+            if (objects.name === 'porta') {
+                console.log("mudarei de cena");
+            this.scene.switch('Casa')
+            }
+        }
+
         //colocando semente da cenoura na mão
         if(this.player.isAction){
             this.isTouching = true;
